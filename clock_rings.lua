@@ -43,21 +43,8 @@ Changelog:
 		start_angle=0,
 		-- "end_angle" is the ending angle of the ring, in degrees, clockwise from top. Value can be either positive or negative, but must be larger than start_angle.
 		end_angle=360
-	},
-	{
-		name='time',
-		arg='%M.%S',
-		max=60,
-		bg_colour=0x888A85,
-		bg_alpha=0,
-		fg_colour=0x888A85,
-		fg_alpha=0,
-		x=160, y=155,
-		radius=56,
-		thickness=5,
-		start_angle=0,
-		end_angle=360
-	},-- ]]
+	}-- ]]
+
 settings_table = {
 	{
 		name='time',
@@ -181,7 +168,7 @@ settings_table = {
 		bg_alpha=0.7,
 		fg_colour=0x888A85,
 		fg_alpha=0,
-		x=350, y=155,
+		x=430, y=155,
 		radius=308,
 		thickness=2,
 		start_angle=84,
@@ -314,18 +301,18 @@ end
 
 function conky_clock_rings()
 	local function setup_rings(cr,pt)
-          local str=''
-          local value=0
+    local str=''
+    local value=0
 
-          str=string.format('${%s %s}',pt['name'],pt['arg'])
-          str=conky_parse(str)
+    str=string.format('${%s %s}',pt['name'],pt['arg'])
+    str=conky_parse(str)
 
-          value=tonumber(str)
-          if value == nil then value = 0 end
-          pct=value/pt['max']
+    value=tonumber(str)
+    if value == nil then value = 0 end
+    pct=value/pt['max']
 
-          draw_ring(cr,pct,pt)
-        end
+    draw_ring(cr,pct,pt)
+  end
 
 	-- Check that Conky has been running for at least 5s
 
@@ -344,4 +331,8 @@ function conky_clock_rings()
 	end
 
 	draw_clock_hands(cr,clock_x,clock_y)
+
+  cairo_destroy(cr)
+  cairo_surface_destroy(cs)
+  cr=nil
 end
